@@ -519,13 +519,20 @@
                 detox: 'bg-teal-700'
             };
             
-            productGrid.innerHTML = productsToRender.map(product => `
-                <div class="rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col h-full border-2 border-[#D4AF37]/60 dark:border-[#D4AF37]/40 hover:border-[#D4AF37] dark:hover:border-[#D4AF37] group bg-gradient-to-b from-white to-amber-50/30 dark:from-slate-800 dark:to-slate-900">
+            productGrid.innerHTML = productsToRender.map(product => {
+                const qty = cart[product.id] || 0;
+                const inCart = qty > 0;
+                
+                return `
+                <div class="rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col h-full border-2 ${inCart ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/20' : 'border-[#D4AF37]/60 dark:border-[#D4AF37]/40'} hover:border-[#D4AF37] dark:hover:border-[#D4AF37] group bg-gradient-to-b from-white to-amber-50/30 dark:from-slate-800 dark:to-slate-900">
                     <div class="relative h-48 overflow-hidden">
                         <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                         <span class="absolute top-3 left-3 ${categoryColors[product.category]} text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md">
                             ${categoryLabels[product.category]}
                         </span>
+                        ${inCart ? `<span class="absolute top-3 right-3 bg-[#D4AF37] text-white text-xs font-bold px-2 py-1 rounded-md shadow-md flex items-center gap-1">
+                            <i data-lucide="shopping-cart" class="h-3 w-3"></i> In Cart
+                        </span>` : ''}
                     </div>
                     <div class="p-5 flex flex-col flex-grow backdrop-blur-sm bg-white/70 dark:bg-slate-800/70 border-t border-[#D4AF37]/20">
                         <div class="flex justify-between items-start mb-2">
@@ -533,12 +540,27 @@
                             <span class="bg-gradient-to-r from-amber-100 to-yellow-100 dark:from-amber-900/50 dark:to-yellow-900/50 text-[#996515] dark:text-amber-300 text-xs font-bold px-2.5 py-1 rounded-md shrink-0 ml-2 border border-[#D4AF37]/30">${CURRENCY}${product.price}</span>
                         </div>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow font-light">${product.desc}</p>
-                        <button onclick="addToCart(${product.id})" class="w-full bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm border-2 border-[#D4AF37] text-[#996515] dark:text-amber-300 hover:bg-[#D4AF37] hover:text-white dark:hover:bg-[#D4AF37] dark:hover:text-white font-semibold py-2.5 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-sm hover:shadow-md">
-                            Add to Cart <i data-lucide="shopping-cart" class="h-4 w-4"></i>
-                        </button>
+                        
+                        <!-- Quantity Controls -->
+                        <div class="flex items-center gap-2">
+                            ${inCart ? `
+                                <div class="flex items-center gap-2 bg-gray-100 dark:bg-slate-700 rounded-lg p-1 flex-shrink-0">
+                                    <button onclick="updateProductQty(${product.id}, -1)" class="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-600 rounded-md shadow-sm text-base hover:bg-red-50 dark:hover:bg-red-900 text-red-600 dark:text-red-400 font-bold transition-colors">−</button>
+                                    <span class="text-base font-bold w-6 text-center dark:text-white">${qty}</span>
+                                    <button onclick="updateProductQty(${product.id}, 1)" class="w-8 h-8 flex items-center justify-center bg-white dark:bg-slate-600 rounded-md shadow-sm text-base hover:bg-green-50 dark:hover:bg-green-900 text-green-600 dark:text-green-400 font-bold transition-colors">+</button>
+                                </div>
+                                <button onclick="toggleCart()" class="flex-grow bg-[#D4AF37] text-white font-semibold py-2 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-sm hover:shadow-md hover:bg-[#b8962e]">
+                                    View Cart <i data-lucide="shopping-bag" class="h-4 w-4"></i>
+                                </button>
+                            ` : `
+                                <button onclick="addToCart(${product.id})" class="w-full bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm border-2 border-[#D4AF37] text-[#996515] dark:text-amber-300 hover:bg-[#D4AF37] hover:text-white dark:hover:bg-[#D4AF37] dark:hover:text-white font-semibold py-2.5 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-sm hover:shadow-md">
+                                    Add to Cart <i data-lucide="shopping-cart" class="h-4 w-4"></i>
+                                </button>
+                            `}
+                        </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
             lucide.createIcons(); // Re-init icons for new elements
         }
         
@@ -620,23 +642,14 @@
             }
             saveCart(); // Persist to localStorage
             updateCartUI();
-            
-            // Visual feedback
-            const btn = event.currentTarget;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = `Added <i data-lucide="check" class="h-4 w-4"></i>`;
-            btn.classList.add('bg-green-100');
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.classList.remove('bg-green-100');
-                lucide.createIcons();
-            }, 1000);
+            filterProducts(); // Re-render products to show quantity controls
         }
 
         function removeFromCart(id) {
             delete cart[id];
             saveCart(); // Persist to localStorage
             updateCartUI();
+            filterProducts(); // Re-render products to update quantity display
         }
 
         function changeQuantity(id, change) {
@@ -647,6 +660,21 @@
                 saveCart(); // Persist to localStorage
                 updateCartUI();
             }
+        }
+        
+        // Update quantity from product card (also re-renders products)
+        function updateProductQty(id, change) {
+            if (!cart[id]) cart[id] = 0;
+            
+            if (cart[id] + change <= 0) {
+                delete cart[id];
+            } else {
+                cart[id] += change;
+            }
+            
+            saveCart();
+            updateCartUI();
+            filterProducts(); // Re-render products to update quantity display
         }
 
         function updateCartUI() {
@@ -859,8 +887,9 @@
         }
 
         // Initialize
-        renderProducts();
-        loadCart(); // Restore cart from localStorage if available
+        loadCart(); // Restore cart from localStorage FIRST
+        updateCartUI(); // Update cart display
+        renderProducts(); // Then render products with correct cart state
 
     </script>
 </body>
