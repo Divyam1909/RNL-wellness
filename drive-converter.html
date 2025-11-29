@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive Image Converter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
+    
+    <div class="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 max-w-2xl w-full border border-white/20">
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-4">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-white mb-2">Google Drive → Direct Image Link</h1>
+            <p class="text-gray-300 text-sm">Convert Google Drive share links to embeddable image URLs</p>
+        </div>
+
+        <div class="space-y-6">
+            <!-- Input -->
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Paste Google Drive Link</label>
+                <textarea id="input-link" rows="3" placeholder="https://drive.google.com/file/d/YOUR_FILE_ID/view?usp=sharing" 
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"></textarea>
+            </div>
+
+            <!-- Convert Button -->
+            <button onclick="convertLink()" 
+                class="w-full py-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg">
+                Convert to Direct Link
+            </button>
+
+            <!-- Output -->
+            <div id="output-section" class="hidden">
+                <label class="block text-sm font-medium text-gray-300 mb-2">Direct Image URL (Ready to use)</label>
+                <div class="relative">
+                    <input type="text" id="output-link" readonly 
+                        class="w-full px-4 py-3 pr-24 bg-green-500/10 border border-green-500/30 rounded-xl text-green-300 focus:outline-none">
+                    <button onclick="copyToClipboard()" 
+                        class="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-lg transition-colors">
+                        Copy
+                    </button>
+                </div>
+                
+                <!-- Preview -->
+                <div class="mt-4">
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Preview</label>
+                    <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                        <img id="preview-img" src="" alt="Preview" class="max-w-full h-auto rounded-lg mx-auto max-h-64 object-contain">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error -->
+            <div id="error-section" class="hidden">
+                <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-red-300 text-sm">
+                    <strong>Invalid Link!</strong> Please paste a valid Google Drive share link.
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mt-8 pt-6 border-t border-white/10">
+            <h3 class="text-sm font-semibold text-gray-300 mb-3">Supported Link Formats:</h3>
+            <ul class="text-xs text-gray-400 space-y-1">
+                <li>• https://drive.google.com/file/d/<span class="text-purple-400">FILE_ID</span>/view?usp=sharing</li>
+                <li>• https://drive.google.com/open?id=<span class="text-purple-400">FILE_ID</span></li>
+                <li>• https://drive.google.com/uc?id=<span class="text-purple-400">FILE_ID</span></li>
+            </ul>
+            <p class="text-xs text-gray-500 mt-3">⚠️ Make sure your file is shared as "Anyone with the link can view"</p>
+        </div>
+    </div>
+
+    <script>
+        function extractFileId(url) {
+            // Pattern 1: /file/d/FILE_ID/
+            let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (match) return match[1];
+            
+            // Pattern 2: ?id=FILE_ID or &id=FILE_ID
+            match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (match) return match[1];
+            
+            // Pattern 3: /d/FILE_ID (shorter format)
+            match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (match) return match[1];
+            
+            return null;
+        }
+
+        function convertLink() {
+            const input = document.getElementById('input-link').value.trim();
+            const outputSection = document.getElementById('output-section');
+            const errorSection = document.getElementById('error-section');
+            const outputLink = document.getElementById('output-link');
+            const previewImg = document.getElementById('preview-img');
+
+            // Hide both sections first
+            outputSection.classList.add('hidden');
+            errorSection.classList.add('hidden');
+
+            if (!input) {
+                errorSection.classList.remove('hidden');
+                return;
+            }
+
+            const fileId = extractFileId(input);
+
+            if (!fileId) {
+                errorSection.classList.remove('hidden');
+                return;
+            }
+
+            // Generate direct link using lh3.googleusercontent.com
+            const directLink = `https://lh3.googleusercontent.com/d/${fileId}`;
+            
+            outputLink.value = directLink;
+            previewImg.src = directLink;
+            outputSection.classList.remove('hidden');
+        }
+
+        function copyToClipboard() {
+            const outputLink = document.getElementById('output-link');
+            outputLink.select();
+            document.execCommand('copy');
+            
+            // Visual feedback
+            const btn = event.currentTarget;
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.classList.remove('bg-green-500');
+            btn.classList.add('bg-purple-500');
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('bg-purple-500');
+                btn.classList.add('bg-green-500');
+            }, 2000);
+        }
+
+        // Auto-convert on paste
+        document.getElementById('input-link').addEventListener('paste', () => {
+            setTimeout(convertLink, 100);
+        });
+    </script>
+</body>
+</html>
+
