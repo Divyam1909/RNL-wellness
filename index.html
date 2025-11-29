@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritesh Natural Life Wellness</title>
+    <!-- Tailwind CSS for modern layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Merriweather for headings (Ayurvedic feel), Open Sans for text -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* Custom Theme Overrides */
+        :root {
+            --primary-green: #2F5233; /* Deep Ayurvedic Green */
+            --accent-gold: #D4AF37;   /* Muted Gold */
+            --light-bg: #F9F7F2;      /* Off-white/Rice paper color */
+            --text-dark: #333333;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        h1, h2, h3, h4, .serif {
+            font-family: 'Merriweather', serif;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .consult-btn {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Scrollbar aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .hero-pattern {
+            background-color: var(--primary-green);
+            background-image: url("https://www.transparenttextures.com/patterns/leaf.png");
+            /* Simple pattern fallback */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 w-full z-40 bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i data-lucide="leaf" class="text-[#2F5233] h-8 w-8"></i>
+                <div>
+                    <h1 class="text-xl font-bold text-[#2F5233] leading-none tracking-tight">Ritesh Natural</h1>
+                    <span class="text-xs text-[#D4AF37] font-semibold tracking-widest uppercase">Life Wellness</span>
+                </div>
+            </div>
+            
+            <!-- Cart Icon -->
+            <button onclick="toggleCart()" class="relative p-2 hover:bg-green-50 rounded-full transition-colors">
+                <i data-lucide="shopping-bag" class="text-[#2F5233] h-6 w-6"></i>
+                <span id="cart-count" class="absolute top-0 right-0 bg-[#D4AF37] text-white text-xs font-bold px-1.5 py-0.5 rounded-full transform scale-0 transition-transform duration-200">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-pattern text-white mt-16 pt-16 pb-20 px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-[#D4AF37] font-semibold tracking-widest uppercase mb-2 text-sm">Ayurveda & Heritage</p>
+            <h2 class="text-4xl md:text-5xl font-bold mb-4 serif">Wellness Begins Here</h2>
+            <p class="text-green-100 text-lg md:text-xl font-light opacity-90">Restore your balance with our curated selection of 100% natural and organic remedies.</p>
+        </div>
+    </section>
+
+    <!-- Product Catalog -->
+    <main class="flex-grow container mx-auto px-4 py-12 -mt-10 z-10 relative">
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Products will be injected here by JS -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#2F5233] text-green-100 py-8 text-center mt-auto">
+        <div class="container mx-auto px-4">
+            <i data-lucide="flower-2" class="h-8 w-8 mx-auto mb-4 text-[#D4AF37]"></i>
+            <h3 class="serif text-xl font-semibold mb-2">Ritesh Natural Life Wellness</h3>
+            <p class="text-sm opacity-70 mb-4">Nature's best, curated for your health.</p>
+            <p class="text-xs opacity-50">&copy; <script>document.write(new Date().getFullYear())</script> All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Consult Button -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2 group">
+        <span class="bg-white text-[#2F5233] px-3 py-1 rounded-lg shadow-md text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none mb-1">
+            Expert Consultation
+        </span>
+        <button onclick="openConsultation()" class="consult-btn bg-[#25D366] hover:bg-[#128C7E] text-white p-4 rounded-full shadow-lg transition-transform hover:scale-110 flex items-center justify-center">
+            <i data-lucide="message-circle" class="h-8 w-8"></i>
+        </button>
+    </div>
+
+    <!-- Cart Modal Overlay -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300">
+        <!-- Cart Drawer -->
+        <div id="cart-drawer" class="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+            
+            <!-- Drawer Header -->
+            <div class="bg-[#2F5233] text-white p-4 flex justify-between items-center shadow-md">
+                <h3 class="serif text-xl font-bold flex items-center gap-2">
+                    <i data-lucide="shopping-bag" class="h-5 w-5"></i> Your Wellness Box
+                </h3>
+                <button onclick="toggleCart()" class="hover:bg-white/20 p-1 rounded-full transition">
+                    <i data-lucide="x" class="h-6 w-6"></i>
+                </button>
+            </div>
+
+            <!-- Cart Items Area -->
+            <div id="cart-items-container" class="flex-grow overflow-y-auto p-4 space-y-4 bg-[#F9F7F2]">
+                <!-- Cart items injected here -->
+                <div class="text-center text-gray-400 mt-20 flex flex-col items-center">
+                    <i data-lucide="sprout" class="h-12 w-12 mb-2 opacity-50"></i>
+                    <p>Your box is empty.</p>
+                </div>
+            </div>
+
+            <!-- Drawer Footer -->
+            <div class="bg-white p-4 border-t border-gray-100 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+                <div class="flex justify-between items-center mb-4 text-lg font-bold text-[#2F5233]">
+                    <span>Total Estimate</span>
+                    <span id="cart-total">₹0</span>
+                </div>
+                <button onclick="placeOrder()" class="w-full bg-[#2F5233] hover:bg-[#1e3a20] text-white font-bold py-4 rounded-lg flex justify-center items-center gap-2 transition-colors">
+                    <span>Place Order on WhatsApp</span>
+                    <i data-lucide="send" class="h-4 w-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // ==========================================
+        // CONFIGURATION SECTION - EDIT THIS
+        // ==========================================
+        
+        // 1. WhatsApp Phone Number (Country code + Number, no + sign)
+        const WA_PHONE = "919661660000"; 
+
+        // 2. Custom Messages
+        const MSG_ORDER_PREFIX = "Namaste Ritesh Wellness, I would like to place an order for the following items:";
+        const MSG_CONSULT = "Namaste, I am browsing your catalog and would like to consult with you.";
+
+        // 3. Currency Symbol
+        const CURRENCY = "₹";
+
+        // 4. Product Catalog Data
+        const products = [
+            {
+                id: 1,
+                name: "Organic Ashwagandha Powder",
+                price: 350,
+                desc: "Ancient root for stress relief and vitality enhancement.",
+                image: "https://images.unsplash.com/photo-1611078488334-a69076b92f75?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 2,
+                name: "Pure Shilajit Resin",
+                price: 999,
+                desc: "Himalayan vitality booster for strength and stamina.",
+                image: "https://images.unsplash.com/photo-1624454002302-36b824d7bd52?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 3,
+                name: "Triphala Churna",
+                price: 180,
+                desc: "Gentle digestive cleanser and detoxifier.",
+                image: "https://images.unsplash.com/photo-1629196914375-f7e48f477b6d?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 4,
+                name: "Golden Turmeric Curcumin",
+                price: 299,
+                desc: "High potency turmeric for immunity and inflammation.",
+                image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 5,
+                name: "Cold Pressed Neem Oil",
+                price: 220,
+                desc: "For healthy skin, hair, and purification.",
+                image: "https://images.unsplash.com/photo-1601614050570-5b72df48667c?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 6,
+                name: "Chyawanprash Immunity Jar",
+                price: 450,
+                desc: "Traditional formulation for daily immunity support.",
+                image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 7,
+                name: "Brahmi Memory Booster",
+                price: 275,
+                desc: "Herb for mental clarity, focus, and memory.",
+                image: "https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 8,
+                name: "Amla Vitamin C Juice",
+                price: 150,
+                desc: "Natural Vitamin C source for hair and skin health.",
+                image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 9,
+                name: "Kumkumadi Tailam",
+                price: 850,
+                desc: "Saffron-infused beauty oil for radiant glow.",
+                image: "https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 10,
+                name: "Herbal Green Tea Blend",
+                price: 420,
+                desc: "Antioxidant rich blend for metabolism support.",
+                image: "https://images.unsplash.com/photo-1564890369478-c5af469afff8?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 11,
+                name: "Shatavari Root Powder",
+                price: 310,
+                desc: "Rejuvenating tonic for women's wellness.",
+                image: "https://images.unsplash.com/photo-1610450949015-18305c74775d?auto=format&fit=crop&q=80&w=600"
+            },
+            {
+                id: 12,
+                name: "Essential Oil Set",
+                price: 600,
+                desc: "Aromatic oils for calm and relaxation.",
+                image: "https://images.unsplash.com/photo-1608571423902-eed4a5e84e43?auto=format&fit=crop&q=80&w=600"
+            }
+        ];
+
+        // ==========================================
+        // APPLICATION LOGIC (Do not edit below)
+        // ==========================================
+
+        let cart = {}; // Object to store cart items: { productId: quantity }
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Render Products on Load
+        const productGrid = document.getElementById('product-grid');
+        
+        function renderProducts() {
+            productGrid.innerHTML = products.map(product => `
+                <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full border border-gray-100 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-lg text-[#2F5233] leading-tight">${product.name}</h3>
+                            <span class="bg-green-100 text-[#2F5233] text-xs font-bold px-2 py-1 rounded-md shrink-0 ml-2">${CURRENCY}${product.price}</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4 flex-grow font-light">${product.desc}</p>
+                        <button onclick="addToCart(${product.id})" class="w-full bg-white border-2 border-[#2F5233] text-[#2F5233] hover:bg-[#2F5233] hover:text-white font-semibold py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                            Add to Box <i data-lucide="plus" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons(); // Re-init icons for new elements
+        }
+
+        // Cart Functions
+        function addToCart(id) {
+            if (cart[id]) {
+                cart[id]++;
+            } else {
+                cart[id] = 1;
+            }
+            updateCartUI();
+            
+            // Visual feedback
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `Added <i data-lucide="check" class="h-4 w-4"></i>`;
+            btn.classList.add('bg-green-100');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-green-100');
+                lucide.createIcons();
+            }, 1000);
+        }
+
+        function removeFromCart(id) {
+            delete cart[id];
+            updateCartUI();
+        }
+
+        function changeQuantity(id, change) {
+            if (cart[id] + change <= 0) {
+                removeFromCart(id);
+            } else {
+                cart[id] += change;
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            const cartDrawerContainer = document.getElementById('cart-items-container');
+            const cartCountBadge = document.getElementById('cart-count');
+            const cartTotalEl = document.getElementById('cart-total');
+
+            // 1. Calculate Total Items and Price
+            let totalItems = 0;
+            let totalPrice = 0;
+            let cartHTML = '';
+
+            const cartIds = Object.keys(cart);
+
+            if (cartIds.length === 0) {
+                cartHTML = `
+                    <div class="text-center text-gray-400 mt-20 flex flex-col items-center">
+                        <i data-lucide="sprout" class="h-12 w-12 mb-2 opacity-50"></i>
+                        <p>Your box is empty.</p>
+                        <button onclick="toggleCart()" class="text-[#2F5233] font-bold text-sm mt-2 hover:underline">Start Browsing</button>
+                    </div>`;
+            } else {
+                cartIds.forEach(id => {
+                    const product = products.find(p => p.id == id);
+                    const qty = cart[id];
+                    const itemTotal = product.price * qty;
+                    
+                    totalItems += qty;
+                    totalPrice += itemTotal;
+
+                    cartHTML += `
+                        <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-100 flex items-center gap-3">
+                            <img src="${product.image}" class="w-16 h-16 rounded-md object-cover">
+                            <div class="flex-grow">
+                                <h4 class="font-bold text-sm text-gray-800 line-clamp-1">${product.name}</h4>
+                                <div class="text-[#D4AF37] text-sm font-semibold">${CURRENCY}${product.price}</div>
+                            </div>
+                            <div class="flex flex-col items-end gap-2">
+                                <div class="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                                    <button onclick="changeQuantity(${id}, -1)" class="w-6 h-6 flex items-center justify-center bg-white rounded shadow-sm text-xs hover:bg-red-50 text-red-600 font-bold">-</button>
+                                    <span class="text-sm font-bold w-4 text-center">${qty}</span>
+                                    <button onclick="changeQuantity(${id}, 1)" class="w-6 h-6 flex items-center justify-center bg-white rounded shadow-sm text-xs hover:bg-green-50 text-green-600 font-bold">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Update DOM
+            cartDrawerContainer.innerHTML = cartHTML;
+            cartTotalEl.innerText = `${CURRENCY}${totalPrice}`;
+            
+            cartCountBadge.innerText = totalItems;
+            if (totalItems > 0) {
+                cartCountBadge.classList.remove('scale-0');
+            } else {
+                cartCountBadge.classList.add('scale-0');
+            }
+            
+            lucide.createIcons();
+        }
+
+        // Modal Toggle Logic
+        const cartModal = document.getElementById('cart-modal');
+        const cartDrawer = document.getElementById('cart-drawer');
+
+        function toggleCart() {
+            const isHidden = cartModal.classList.contains('hidden');
+            
+            if (isHidden) {
+                // Open
+                cartModal.classList.remove('hidden');
+                // Small delay to allow display:block to apply before opacity transition
+                setTimeout(() => {
+                    cartModal.classList.remove('opacity-0');
+                    cartDrawer.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                // Close
+                cartModal.classList.add('opacity-0');
+                cartDrawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    cartModal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // Close modal when clicking outside drawer
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) toggleCart();
+        });
+
+        // WhatsApp Integration Functions
+        function placeOrder() {
+            const cartIds = Object.keys(cart);
+            if (cartIds.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            let message = `${MSG_ORDER_PREFIX}\n\n`;
+            let total = 0;
+
+            cartIds.forEach(id => {
+                const product = products.find(p => p.id == id);
+                const qty = cart[id];
+                const lineTotal = product.price * qty;
+                total += lineTotal;
+                
+                message += `▪️ ${product.name}\n   Quantity: ${qty} x ${CURRENCY}${product.price} = ${CURRENCY}${lineTotal}\n\n`;
+            });
+
+            message += `*Total Amount: ${CURRENCY}${total}*`;
+
+            openWhatsApp(message);
+        }
+
+        function openConsultation() {
+            openWhatsApp(MSG_CONSULT);
+        }
+
+        function openWhatsApp(text) {
+            const url = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
+        // Initialize
+        renderProducts();
+
+    </script>
+</body>
+</html>
