@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ritesh Natural Life Wellness</title>
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1OHUXoFBI4HquKjNocLo6DfjuedjvNeq7">
     <!-- Tailwind CSS for modern layout -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -90,14 +91,14 @@
     <!-- Header / Navbar -->
     <header id="main-header" class="fixed top-0 w-full z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm shadow-sm transition-all duration-300">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i data-lucide="leaf" class="text-[#2F5233] dark:text-green-400 h-8 w-8"></i>
+            <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <img src="https://lh3.googleusercontent.com/d/1OHUXoFBI4HquKjNocLo6DfjuedjvNeq7" alt="RNL Logo" class="h-10 w-10 rounded-full object-cover">
                 <h1 class="text-lg md:text-xl font-bold text-[#2F5233] dark:text-green-400 leading-none tracking-tight whitespace-nowrap">
                     Ritesh Natural Life Wellness
                 </h1>
-            </div>
+            </a>
             
-            <div class="flex items-center gap-2">
+            <nav class="flex items-center gap-2">
                 <!-- Dark Mode Toggle -->
                 <button onclick="toggleTheme()" id="theme-toggle" class="p-2 hover:bg-green-50 dark:hover:bg-slate-700 rounded-full transition-colors" title="Toggle theme">
                     <i data-lucide="sun" class="h-5 w-5 text-[#2F5233] dark:text-green-400 hidden dark:block"></i>
@@ -109,23 +110,58 @@
                     <i data-lucide="shopping-cart" class="text-[#2F5233] dark:text-green-400 h-6 w-6"></i>
                     <span id="cart-count" class="absolute top-0 right-0 bg-[#D4AF37] text-white text-xs font-bold px-1.5 py-0.5 rounded-full transform scale-0 transition-transform duration-200">0</span>
                 </button>
-            </div>
+            </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero-pattern text-white mt-16 pt-16 pb-20 px-4 text-center">
-        <div class="max-w-3xl mx-auto">
-            <p class="text-[#D4AF37] font-semibold tracking-widest uppercase mb-2 text-sm">Ayurveda & Heritage</p>
-            <h2 class="text-4xl md:text-5xl font-bold mb-4 serif">Wellness Begins Here</h2>
-            <p class="text-green-100 text-lg md:text-xl font-light opacity-90">Restore your balance with our curated selection of 100% natural and organic remedies.</p>
+    <section class="hero-pattern text-white mt-16 py-8 px-4">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-6 md:gap-10">
+            <!-- Left: Text Content -->
+            <div class="flex-1 text-center md:text-left">
+                <p class="text-[#D4AF37] font-semibold tracking-widest uppercase mb-2 text-sm">Ayurveda & Heritage</p>
+                <h2 class="text-3xl md:text-4xl font-bold mb-3 serif">Wellness Begins Here</h2>
+                <p class="text-green-100 text-base md:text-lg font-light opacity-90 mb-5">Restore your balance with our curated selection of 100% natural and organic remedies.</p>
+                
+                <!-- CTA Buttons -->
+                <div class="flex flex-wrap gap-3 justify-center md:justify-start mb-6">
+                    <a href="#search-section" onclick="focusSearch()" class="bg-[#D4AF37] hover:bg-[#b8962e] text-white font-semibold px-6 py-2.5 rounded-lg transition-colors flex items-center gap-2 shadow-lg">
+                        <i data-lucide="shopping-bag" class="h-4 w-4"></i>
+                        Shop Now
+                    </a>
+                    <button onclick="openConsultation()" class="border-2 border-white/30 hover:border-white/60 text-white font-semibold px-6 py-2.5 rounded-lg transition-colors flex items-center gap-2">
+                        <i data-lucide="message-circle" class="h-4 w-4"></i>
+                        Consult Free
+                    </button>
+                </div>
+                
+                <!-- Trust Badges -->
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start text-sm">
+                    <div class="flex items-center gap-1.5 text-green-200">
+                        <i data-lucide="leaf" class="h-4 w-4 text-[#D4AF37]"></i>
+                        <span>100% Natural</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-green-200">
+                        <i data-lucide="shield-check" class="h-4 w-4 text-[#D4AF37]"></i>
+                        <span>Lab Tested</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-green-200">
+                        <i data-lucide="truck" class="h-4 w-4 text-[#D4AF37]"></i>
+                        <span>Delivery Extra</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Right: Hero Image -->
+            <div class="flex-shrink-0">
+                <img src="https://lh3.googleusercontent.com/d/16ItYwNjFHoNjyn9ib3FlIsBt4TmAs5-B" alt="Dr. Ritesh - Natural Wellness Expert" class="w-56 h-56 md:w-72 md:h-72 object-cover rounded-2xl shadow-2xl border-4 border-[#D4AF37]/30">
+            </div>
         </div>
     </section>
 
     <!-- Product Catalog -->
     <main class="flex-grow container mx-auto px-4 py-12 -mt-10 z-10 relative">
         <!-- Search and Filter Section -->
-        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-4 mb-8 border border-gray-100 dark:border-slate-700 theme-transition">
+        <div id="search-section" class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-4 mb-8 border border-gray-100 dark:border-slate-700 theme-transition scroll-mt-20">
             <div class="flex flex-col md:flex-row gap-4">
                 <!-- Search Bar -->
                 <div class="relative flex-grow">
@@ -177,7 +213,7 @@
     <!-- Footer -->
     <footer class="bg-[#2F5233] dark:bg-slate-900 text-green-100 py-8 text-center mt-auto border-t border-green-800 dark:border-slate-700">
         <div class="container mx-auto px-4">
-            <i data-lucide="flower-2" class="h-8 w-8 mx-auto mb-4 text-[#D4AF37]"></i>
+            <img src="https://lh3.googleusercontent.com/d/1OHUXoFBI4HquKjNocLo6DfjuedjvNeq7" alt="RNL Logo" class="h-12 w-12 mx-auto mb-4 rounded-full">
             <h3 class="serif text-xl font-semibold mb-2">Ritesh Natural Life Wellness</h3>
             <p class="text-sm opacity-70 mb-4">Nature's best, curated for your health.</p>
             <p class="text-xs opacity-50">&copy; <script>document.write(new Date().getFullYear())</script> All rights reserved.</p>
@@ -219,6 +255,16 @@
                         <label for="user-age" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Your Age *</label>
                         <input type="number" id="user-age" required min="1" max="120" placeholder="Enter your age" 
                             class="w-full px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F5233] dark:focus:ring-green-500 focus:border-transparent bg-white dark:bg-slate-700 dark:text-white transition-all">
+                    </div>
+                    <!-- Address field - only shown for orders -->
+                    <div id="address-field" class="hidden">
+                        <label for="user-address" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Delivery Address *</label>
+                        <textarea id="user-address" rows="2" placeholder="Enter your full delivery address" 
+                            class="w-full px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F5233] dark:focus:ring-green-500 focus:border-transparent bg-white dark:bg-slate-700 dark:text-white transition-all resize-none"></textarea>
+                        <p class="text-xs text-amber-600 dark:text-amber-400 mt-1 flex items-center gap-1">
+                            <i data-lucide="info" class="h-3 w-3"></i>
+                            Delivery charges will be added based on your location
+                        </p>
                     </div>
                     
                     <div class="flex gap-3 pt-2">
@@ -291,126 +337,8 @@
         // 3. Currency Symbol
         const CURRENCY = "₹";
 
-        // 4. Product Catalog Data
-        const products = [
-            {
-                id: 1,
-                name: "Curcumin Capsule",
-                price: 450,
-                qty: "60 Capsules",
-                desc: "Pure turmeric extract with powerful anti-inflammatory and antioxidant properties for joint health and immunity.",
-                category: "immunity",
-                image: "https://lh3.googleusercontent.com/d/1AekaW97hvg6r3Ns7KyLOmo_75JajGkGi"
-            },
-            {
-                id: 2,
-                name: "Eco Ensulin Capsule",
-                price: 450,
-                qty: "60 Capsules",
-                desc: "Natural blood sugar management formula with herbal extracts to support healthy glucose metabolism.",
-                category: "energy",
-                image: "https://lh3.googleusercontent.com/d/12vIqq4F7AFBRe5OdQ_hVbO7KeWRGOXU0"
-            },
-            {
-                id: 3,
-                name: "Wheat Grass Capsule",
-                price: 450,
-                qty: "60 Capsules",
-                desc: "Nutrient-dense superfood rich in chlorophyll for detoxification, alkalizing, and boosting energy levels.",
-                category: "detox",
-                image: "https://lh3.googleusercontent.com/d/1NezPYO7NFa-UxtqOFvjSJzCGyWuPhzDL"
-            },
-            {
-                id: 4,
-                name: "Neem Capsule",
-                price: 450,
-                qty: "60 Capsules",
-                desc: "Traditional blood purifier with antibacterial properties for clear skin and strong immunity.",
-                category: "immunity",
-                image: "https://lh3.googleusercontent.com/d/1kpO9F3leQVCaMuIrQGMZ465Oj9w-VIm4"
-            },
-            {
-                id: 5,
-                name: "Sea Buckthorn Juice",
-                price: 450,
-                qty: "500 ml",
-                desc: "Himalayan superfruit juice packed with Omega-7, vitamins, and antioxidants for radiant skin and vitality.",
-                category: "skin",
-                image: "https://lh3.googleusercontent.com/d/12_K6hEIlNNP0zp8mt0bBStiqsuuDfyPh"
-            },
-            {
-                id: 6,
-                name: "Moringa Capsule",
-                price: 450,
-                qty: "60 Capsules",
-                desc: "The miracle tree supplement loaded with vitamins, minerals, and amino acids for complete nutrition.",
-                category: "energy",
-                image: "https://lh3.googleusercontent.com/d/1f2DoPjs_Ngn7zgDFUUxaApAc9NexuJ5V"
-            },
-            {
-                id: 7,
-                name: "Ashwagandha Capsule",
-                price: 450,
-                qty: "60 Capsules",
-                desc: "Adaptogenic herb for stress relief, mental clarity, improved sleep, and enhanced physical endurance.",
-                category: "stress",
-                image: "https://lh3.googleusercontent.com/d/1pF8aUa5DG3r4cYSH1BcHDW4vtIOQ_lam"
-            },
-            {
-                id: 8,
-                name: "Aloevera Juice",
-                price: 450,
-                qty: "500 ml",
-                desc: "Pure aloe vera extract for digestive health, skin hydration, and natural detoxification support.",
-                category: "digestive",
-                image: "https://lh3.googleusercontent.com/d/1HBkAnOS-SATTdozIMGpHhd1v7PUKWmlZ"
-            },
-            {
-                id: 9,
-                name: "Tulsi Capsule",
-                price: 450,
-                qty: "60 Capsules",
-                desc: "Holy basil extract for respiratory health, immunity boost, and natural stress management.",
-                category: "immunity",
-                image: "https://lh3.googleusercontent.com/d/1KMKCUlqmpfZfWRf7KBBLvlA1tfnb3miL"
-            },
-            {
-                id: 10,
-                name: "Spirulina Capsule",
-                price: 450,
-                qty: "60 Capsules",
-                desc: "Blue-green algae superfood rich in protein, B-vitamins, and iron for energy and detoxification.",
-                category: "detox",
-                image: "https://lh3.googleusercontent.com/d/1PW2UL7upDgJ5M8M7MKBDKKh6zZFXSUjD"
-            },
-            {
-                id: 11,
-                name: "Herbal Infusion Capsule",
-                price: 720,
-                qty: "60 Capsules",
-                desc: "Calming blend of traditional herbs for relaxation, better sleep, and digestive comfort.",
-                category: "digestive",
-                image: "https://lh3.googleusercontent.com/d/11HTvNjVqrMLsZq6Nrm-sJThKGcqt3Vza"
-            },
-            {
-                id: 12,
-                name: "Haridra Capsule",
-                price: 750,
-                qty: "60 Capsules",
-                desc: "Premium turmeric supplement for liver health, skin glow, and natural anti-inflammatory support.",
-                category: "skin",
-                image: "https://lh3.googleusercontent.com/d/1sX8Z77RzcyRrH0zJbjRRXCTTTSnNJbCN"
-            },
-            {
-                id: 13,
-                name: "Anjalika Capsule",
-                price: 1300,
-                qty: "60 Capsules",
-                desc: "Women's wellness formula supporting hormonal balance, vitality, and overall feminine health.",
-                category: "energy",
-                image: "https://lh3.googleusercontent.com/d/1HEH-p2rQzm2GtyZwHzh8H8jLdAPopU-I"
-            }
-        ];
+        // 4. Products array (loaded from cloud)
+        let products = [];
         
         // Category labels for display
         const categoryLabels = {
@@ -793,9 +721,21 @@
         const userInfoForm = document.getElementById('user-info-form');
         const userNameInput = document.getElementById('user-name');
         const userAgeInput = document.getElementById('user-age');
+        const userAddressInput = document.getElementById('user-address');
+        const addressField = document.getElementById('address-field');
         
         function showUserInfoModal(action) {
             pendingAction = action;
+            
+            // Show address field only for orders
+            if (action === 'order') {
+                addressField.classList.remove('hidden');
+                userAddressInput.setAttribute('required', 'required');
+            } else {
+                addressField.classList.add('hidden');
+                userAddressInput.removeAttribute('required');
+            }
+            
             userInfoModal.classList.remove('hidden');
             userInfoModal.classList.add('flex');
             
@@ -816,6 +756,7 @@
                 userInfoModal.classList.add('hidden');
                 userInfoModal.classList.remove('flex');
                 userInfoForm.reset();
+                addressField.classList.add('hidden');
                 pendingWhatsAppMessage = '';
                 pendingAction = '';
             }, 300);
@@ -832,17 +773,25 @@
             
             const userName = userNameInput.value.trim();
             const userAge = userAgeInput.value.trim();
+            const userAddress = userAddressInput.value.trim();
+            
+            const isOrder = pendingAction === 'order';
             
             if (!userName || !userAge) {
-                alert('Please fill in all fields');
+                showToast('Please fill in all fields', 'warning');
+                return;
+            }
+            
+            // Validate address for orders
+            if (isOrder && !userAddress) {
+                showToast('Please enter your delivery address', 'warning');
                 return;
             }
             
             let finalMessage = '';
-            const isOrder = pendingAction === 'order';
             
             if (isOrder) {
-                finalMessage = buildOrderMessage(userName, userAge);
+                finalMessage = buildOrderMessage(userName, userAge, userAddress);
             } else if (pendingAction === 'consult') {
                 finalMessage = `${MSG_CONSULT}\n\n👤 *Customer Details:*\nName: ${userName}\nAge: ${userAge}`;
             }
@@ -861,10 +810,11 @@
             }, 350);
         });
         
-        function buildOrderMessage(userName, userAge) {
+        function buildOrderMessage(userName, userAge, userAddress) {
             const cartIds = Object.keys(cart);
             let message = `${MSG_ORDER_PREFIX}\n\n`;
             message += `👤 *Customer Details:*\nName: ${userName}\nAge: ${userAge}\n\n`;
+            message += `📍 *Delivery Address:*\n${userAddress}\n\n`;
             message += `🛒 *Order Items:*\n`;
             
             let total = 0;
@@ -886,11 +836,49 @@
         function placeOrder() {
             const cartIds = Object.keys(cart);
             if (cartIds.length === 0) {
-                alert("Your cart is empty!");
+                showToast("Your cart is empty! Add some products first.", "warning");
                 return;
             }
             
             showUserInfoModal('order');
+        }
+        
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            // Remove existing toast if any
+            const existingToast = document.getElementById('toast-notification');
+            if (existingToast) existingToast.remove();
+            
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                warning: 'bg-amber-500',
+                info: 'bg-blue-500'
+            };
+            
+            const icons = {
+                success: 'check-circle',
+                error: 'x-circle',
+                warning: 'alert-triangle',
+                info: 'info'
+            };
+            
+            const toast = document.createElement('div');
+            toast.id = 'toast-notification';
+            toast.className = `fixed top-20 left-1/2 transform -translate-x-1/2 ${colors[type]} text-white px-5 py-3 rounded-xl shadow-2xl z-[100] flex items-center gap-3 animate-bounce`;
+            toast.innerHTML = `
+                <i data-lucide="${icons[type]}" class="h-5 w-5"></i>
+                <span class="font-medium">${message}</span>
+            `;
+            document.body.appendChild(toast);
+            lucide.createIcons();
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.3s ease';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
         function openConsultation() {
@@ -902,10 +890,118 @@
             window.open(url, '_blank');
         }
 
+        // JSONBin.io Configuration
+        const JSONBIN_API = 'https://api.jsonbin.io/v3/b';
+        const JSONBIN_KEY = '$2a$10$R2crzhi/ahpIaZ8wXhlsZeXvAbQ2WTHjAqxmmgvV/lz3s.qFlz6f.';
+        const JSONBIN_ID = '692bd371ae596e708f79a1c0';
+        
+        // Cache Configuration
+        const CACHE_KEY = 'rnl_products_cache';
+        const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000; // 1 week in milliseconds
+        
+        // Check if cache is valid
+        function getCachedProducts() {
+            try {
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (!cached) return null;
+                
+                const { data, timestamp } = JSON.parse(cached);
+                const now = Date.now();
+                
+                // Check if cache is still valid (less than 1 week old)
+                if (now - timestamp < CACHE_DURATION) {
+                    console.log('Using cached products (expires in', Math.round((CACHE_DURATION - (now - timestamp)) / (24 * 60 * 60 * 1000)), 'days)');
+                    return data;
+                }
+                
+                // Cache expired
+                console.log('Cache expired, fetching fresh data...');
+                return null;
+            } catch (e) {
+                return null;
+            }
+        }
+        
+        // Save products to cache
+        function cacheProducts(data) {
+            try {
+                localStorage.setItem(CACHE_KEY, JSON.stringify({
+                    data: data,
+                    timestamp: Date.now()
+                }));
+                console.log('Products cached for 1 week');
+            } catch (e) {
+                console.log('Could not cache products');
+            }
+        }
+        
+        // Load products - first check cache, then fetch from cloud
+        async function loadProductsData() {
+            // Show loading state
+            productGrid.innerHTML = `
+                <div class="col-span-full text-center py-16">
+                    <div class="animate-spin h-10 w-10 border-4 border-[#2F5233] border-t-transparent rounded-full mx-auto mb-4"></div>
+                    <p class="text-gray-500 dark:text-gray-400">Loading products...</p>
+                </div>
+            `;
+            
+            // Try to use cached data first
+            const cachedData = getCachedProducts();
+            if (cachedData) {
+                products = cachedData.filter(p => p.active !== false);
+                renderProducts();
+                return;
+            }
+            
+            // No valid cache, fetch from cloud
+            try {
+                const response = await fetch(`${JSONBIN_API}/${JSONBIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': JSONBIN_KEY }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const allProducts = data.record;
+                    
+                    // Cache the fresh data
+                    cacheProducts(allProducts);
+                    
+                    products = allProducts.filter(p => p.active !== false);
+                    renderProducts();
+                } else {
+                    throw new Error('Failed to load products');
+                }
+                
+            } catch (error) {
+                console.error('Error loading products:', error);
+                productGrid.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <i data-lucide="wifi-off" class="h-12 w-12 mx-auto text-gray-400 mb-4"></i>
+                        <p class="text-gray-500 dark:text-gray-400 mb-2">Unable to load products</p>
+                        <button onclick="forceRefreshProducts()" class="text-[#2F5233] dark:text-green-400 font-semibold hover:underline">Try again</button>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+        
+        // Force refresh products (bypasses cache)
+        async function forceRefreshProducts() {
+            localStorage.removeItem(CACHE_KEY);
+            await loadProductsData();
+        }
+
+        // Focus search input when Shop Now is clicked
+        function focusSearch() {
+            setTimeout(() => {
+                document.getElementById('search-input').focus();
+            }, 300); // Small delay for smooth scroll to complete
+        }
+
         // Initialize
         loadCart(); // Restore cart from localStorage FIRST
         updateCartUI(); // Update cart display
-        renderProducts(); // Then render products with correct cart state
+        loadProductsData(); // Load products (from localStorage or defaults)
 
     </script>
 </body>

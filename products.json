@@ -1,0 +1,183 @@
+[
+    {
+        "id": 1,
+        "name": "Curcumin Capsule",
+        "price": 450,
+        "qty": "60 Capsules",
+        "desc": "Pure turmeric extract with powerful anti-inflammatory and antioxidant properties for joint health and immunity.",
+        "category": "immunity",
+        "image": "https://lh3.googleusercontent.com/d/1AekaW97hvg6r3Ns7KyLOmo_75JajGkGi",
+        "active": true
+    },
+    {
+        "id": 2,
+        "name": "Eco Ensulin Capsule",
+        "price": 450,
+        "qty": "60 Capsules",
+        "desc": "Natural blood sugar management formula with herbal extracts to support healthy glucose metabolism.",
+        "category": "energy",
+        "image": "https://lh3.googleusercontent.com/d/12vIqq4F7AFBRe5OdQ_hVbO7KeWRGOXU0",
+        "active": true
+    },
+    {
+        "id": 3,
+        "name": "Wheat Grass Capsule",
+        "price": 450,
+        "qty": "60 Capsules",
+        "desc": "Nutrient-dense superfood rich in chlorophyll for detoxification, alkalizing, and boosting energy levels.",
+        "category": "detox",
+        "image": "https://lh3.googleusercontent.com/d/1NezPYO7NFa-UxtqOFvjSJzCGyWuPhzDL",
+        "active": true
+    },
+    {
+        "id": 4,
+        "name": "Neem Capsule",
+        "price": 450,
+        "qty": "60 Capsules",
+        "desc": "Traditional blood purifier with antibacterial properties for clear skin and strong immunity.",
+        "category": "immunity",
+        "image": "https://lh3.googleusercontent.com/d/1kpO9F3leQVCaMuIrQGMZ465Oj9w-VIm4",
+        "active": true
+    },
+    {
+        "id": 5,
+        "name": "Sea Buckthorn Juice",
+        "price": 450,
+        "qty": "500 ml",
+        "desc": "Himalayan superfruit juice packed with Omega-7, vitamins, and antioxidants for radiant skin and vitality.",
+        "category": "skin",
+        "image": "https://lh3.googleusercontent.com/d/12_K6hEIlNNP0zp8mt0bBStiqsuuDfyPh",
+        "active": true
+    },
+    {
+        "id": 6,
+        "name": "Moringa Capsule",
+        "price": 450,
+        "qty": "60 Capsules",
+        "desc": "The miracle tree supplement loaded with vitamins, minerals, and amino acids for complete nutrition.",
+        "category": "energy",
+        "image": "https://lh3.googleusercontent.com/d/1f2DoPjs_Ngn7zgDFUUxaApAc9NexuJ5V",
+        "active": true
+    },
+    {
+        "id": 7,
+        "name": "Ashwagandha Capsule",
+        "price": 450,
+        "qty": "60 Capsules",
+        "desc": "Adaptogenic herb for stress relief, mental clarity, improved sleep, and enhanced physical endurance.",
+        "category": "stress",
+        "image": "https://lh3.googleusercontent.com/d/1pF8aUa5DG3r4cYSH1BcHDW4vtIOQ_lam",
+        "active": true
+    },
+    {
+        "id": 8,
+        "name": "Aloevera Juice",
+        "price": 450,
+        "qty": "500 ml",
+        "desc": "Pure aloe vera extract for digestive health, skin hydration, and natural detoxification support.",
+        "category": "digestive",
+        "image": "https://lh3.googleusercontent.com/d/1HBkAnOS-SATTdozIMGpHhd1v7PUKWmlZ",
+        "active": true
+    },
+    {
+        "id": 9,
+        "name": "Tulsi Capsule",
+        "price": 450,
+        "qty": "60 Capsules",
+        "desc": "Holy basil extract for respiratory health, immunity boost, and natural stress management.",
+        "category": "immunity",
+        "image": "https://lh3.googleusercontent.com/d/1KMKCUlqmpfZfWRf7KBBLvlA1tfnb3miL",
+        "active": true
+    },
+    {
+        "id": 10,
+        "name": "Spirulina Capsule",
+        "price": 450,
+        "qty": "60 Capsules",
+        "desc": "Blue-green algae superfood rich in protein, B-vitamins, and iron for energy and detoxification.",
+        "category": "detox",
+        "image": "https://lh3.googleusercontent.com/d/1PW2UL7upDgJ5M8M7MKBDKKh6zZFXSUjD",
+        "active": true
+    },
+    {
+        "id": 11,
+        "name": "Herbal Infusion Capsule",
+        "price": 720,
+        "qty": "60 Capsules",
+        "desc": "Calming blend of traditional herbs for relaxation, better sleep, and digestive comfort.",
+        "category": "digestive",
+        "image": "https://lh3.googleusercontent.com/d/11HTvNjVqrMLsZq6Nrm-sJThKGcqt3Vza",
+        "active": true
+    },
+    {
+        "id": 12,
+        "name": "Haridra Capsule",
+        "price": 750,
+        "qty": "60 Capsules",
+        "desc": "Premium turmeric supplement for liver health, skin glow, and natural anti-inflammatory support.",
+        "category": "skin",
+        "image": "https://lh3.googleusercontent.com/d/1sX8Z77RzcyRrH0zJbjRRXCTTTSnNJbCN",
+        "active": true
+    },
+    {
+        "id": 13,
+        "name": "Anjalika Capsule",
+        "price": 1300,
+        "qty": "60 Capsules",
+        "desc": "Women's wellness formula supporting hormonal balance, vitality, and overall feminine health.",
+        "category": "energy",
+        "image": "https://lh3.googleusercontent.com/d/1HEH-p2rQzm2GtyZwHzh8H8jLdAPopU-I",
+        "active": true
+    },
+    {
+        "id": 14,
+        "name": "Nutri Tatvam Gud",
+        "price": 150,
+        "qty": "1 kg",
+        "desc": "Pure organic jaggery rich in iron and minerals, a natural sweetener that aids digestion and boosts energy.",
+        "category": "energy",
+        "image": "https://lh3.googleusercontent.com/d/17WlXsOLK-07cZ2dZadqmBYUrnPY3eEXC",
+        "active": true
+    },
+    {
+        "id": 15,
+        "name": "A2 Desi Cow Ghee",
+        "price": 2100,
+        "qty": "1 kg",
+        "desc": "Traditional bilona method ghee from A2 desi cows, enhances immunity, digestion, and provides deep nourishment.",
+        "category": "energy",
+        "image": "https://lh3.googleusercontent.com/d/1-Y18_iQoPg67M9YsbKigWkgfe150MTia",
+        "active": true
+    },
+    {
+        "id": 16,
+        "name": "Rock Salt",
+        "price": 110,
+        "qty": "1 kg",
+        "desc": "Himalayan pink rock salt with 84+ trace minerals, promotes electrolyte balance and healthy blood pressure.",
+        "category": "energy",
+        "image": "https://lh3.googleusercontent.com/d/1AQtifOc79UkMmzvrKIYTdNnENOvjer70",
+        "active": true
+    },
+    {
+        "id": 17,
+        "name": "Gau mutra Ark",
+        "price": 220,
+        "qty": "1 Litre",
+        "desc": "Distilled cow urine extract used in Ayurveda for detoxification, immunity boost, and natural body cleansing.",
+        "category": "detox",
+        "image": "https://lh3.googleusercontent.com/d/1jA16j6N2cw3M8QOUIkxXRBzcZtf-yULa",
+        "active": true
+    },
+    {
+        "id": 18,
+        "name": "Cold Pressed Groundnut Oil",
+        "price": 360,
+        "qty": "1 Litre",
+        "desc": "Wood-pressed groundnut oil retaining natural nutrients, ideal for heart health and traditional cooking.",
+        "category": "energy",
+        "image": "https://lh3.googleusercontent.com/d/1QMcs2Xy7SkCp7501uqZpDtzY6NyW9vsv",
+        "active": true
+    }
+]
+

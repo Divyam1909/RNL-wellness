@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Ritesh Natural Life Wellness</title>
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1OHUXoFBI4HquKjNocLo6DfjuedjvNeq7">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --primary-green: #2F5233;
+            --accent-gold: #D4AF37;
+            --light-bg: #F9F7F2;
+            --text-dark: #333333;
+        }
+        .dark {
+            --primary-green: #4ade80;
+            --accent-gold: #fbbf24;
+            --light-bg: #0f172a;
+            --text-dark: #f1f5f9;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+        }
+        h1, h2, h3, h4, .serif { font-family: 'Merriweather', serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        .dark ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+            <div class="bg-[#2F5233] dark:bg-slate-900 text-white p-6 text-center">
+                <img src="https://lh3.googleusercontent.com/d/1OHUXoFBI4HquKjNocLo6DfjuedjvNeq7" alt="RNL Logo" class="h-16 w-16 mx-auto mb-3 rounded-full border-2 border-[#D4AF37]">
+                <h1 class="serif text-2xl font-bold">Admin Portal</h1>
+                <p class="text-green-100 text-sm mt-1">Ritesh Natural Life Wellness</p>
+            </div>
+            
+            <form id="login-form" class="p-6 space-y-4">
+                <div id="login-error" class="hidden bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 p-3 rounded-lg text-sm flex items-center gap-2">
+                    <i data-lucide="alert-circle" class="h-4 w-4"></i>
+                    <span>Invalid credentials</span>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Username</label>
+                    <input type="text" id="username" required placeholder="Enter username" 
+                        class="w-full px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F5233] dark:focus:ring-green-500 bg-white dark:bg-slate-700 dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                    <input type="password" id="password" required placeholder="Enter password" 
+                        class="w-full px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F5233] dark:focus:ring-green-500 bg-white dark:bg-slate-700 dark:text-white">
+                </div>
+                <button type="submit" class="w-full bg-[#2F5233] dark:bg-green-600 hover:bg-[#1e3a20] dark:hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <i data-lucide="log-in" class="h-4 w-4"></i>
+                    Sign In
+                </button>
+            </form>
+            
+            <div class="px-6 pb-6">
+                <a href="index.html" class="text-[#2F5233] dark:text-green-400 text-sm hover:underline flex items-center justify-center gap-1">
+                    <i data-lucide="arrow-left" class="h-3 w-3"></i>
+                    Back to Store
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="hidden">
+        <!-- Header -->
+        <header class="bg-white dark:bg-slate-900 shadow-sm sticky top-0 z-40">
+            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <img src="https://lh3.googleusercontent.com/d/1OHUXoFBI4HquKjNocLo6DfjuedjvNeq7" alt="RNL Logo" class="h-10 w-10 rounded-full">
+                    <div>
+                        <h1 class="text-lg font-bold text-[#2F5233] dark:text-green-400">Admin Dashboard</h1>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Product Management</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <a href="index.html" class="p-2 hover:bg-green-50 dark:hover:bg-slate-700 rounded-lg transition-colors flex items-center gap-2 text-sm text-[#2F5233] dark:text-green-400">
+                        <i data-lucide="store" class="h-4 w-4"></i>
+                        <span class="hidden sm:inline">Store</span>
+                    </a>
+                    <button onclick="toggleTheme()" class="p-2 hover:bg-green-50 dark:hover:bg-slate-700 rounded-full transition-colors">
+                        <i data-lucide="sun" class="h-5 w-5 text-[#2F5233] dark:text-green-400 hidden dark:block"></i>
+                        <i data-lucide="moon" class="h-5 w-5 text-[#2F5233] dark:text-green-400 block dark:hidden"></i>
+                    </button>
+                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-sm font-semibold flex items-center gap-1 transition-colors">
+                        <i data-lucide="log-out" class="h-4 w-4"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-6">
+            <!-- Info Banner -->
+            <div id="info-banner" class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 mb-6">
+                <div class="flex items-start gap-3">
+                    <i data-lucide="cloud" class="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5"></i>
+                    <div class="text-sm text-green-800 dark:text-green-300">
+                        <p class="font-semibold mb-1">☁️ Cloud Storage Enabled!</p>
+                        <p>Make your changes, then click "Save All" to sync to cloud. All visitors will see your updates after saving.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Unsaved Changes Banner (hidden by default) -->
+            <div id="unsaved-banner" class="hidden bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 rounded-xl p-4 mb-6">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="alert-circle" class="h-5 w-5 text-amber-600 dark:text-amber-400"></i>
+                        <div class="text-sm text-amber-800 dark:text-amber-300">
+                            <p class="font-semibold">You have unsaved changes!</p>
+                        </div>
+                    </div>
+                    <button onclick="saveAllChanges()" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2 transition-colors text-sm">
+                        <i data-lucide="cloud-upload" class="h-4 w-4"></i>
+                        Save All
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-md border border-gray-100 dark:border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-green-100 dark:bg-green-900/30 p-3 rounded-xl">
+                            <i data-lucide="package" class="h-6 w-6 text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Active Products</p>
+                            <p id="active-count" class="text-2xl font-bold text-[#2F5233] dark:text-green-400">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-md border border-gray-100 dark:border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-amber-100 dark:bg-amber-900/30 p-3 rounded-xl">
+                            <i data-lucide="archive" class="h-6 w-6 text-amber-600 dark:text-amber-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Archived</p>
+                            <p id="archived-count" class="text-2xl font-bold text-amber-600 dark:text-amber-400">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-md border border-gray-100 dark:border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-xl">
+                            <i data-lucide="layers" class="h-6 w-6 text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Categories</p>
+                            <p id="category-count" class="text-2xl font-bold text-blue-600 dark:text-blue-400">6</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-md border border-gray-100 dark:border-slate-700 mb-6 flex flex-wrap gap-4 justify-between items-center">
+                <div class="flex gap-2">
+                    <button onclick="showTab('active')" id="tab-active" class="px-4 py-2 rounded-lg font-semibold transition-colors bg-[#2F5233] text-white">
+                        Active
+                    </button>
+                    <button onclick="showTab('archived')" id="tab-archived" class="px-4 py-2 rounded-lg font-semibold transition-colors bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600">
+                        Archived
+                    </button>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <button id="save-all-btn" onclick="saveAllChanges()" class="hidden bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2 transition-colors animate-pulse">
+                        <i data-lucide="cloud-upload" class="h-4 w-4"></i>
+                        Save All
+                    </button>
+                    <button onclick="resetToOriginal()" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg font-semibold flex items-center gap-2 transition-colors text-sm">
+                        <i data-lucide="refresh-cw" class="h-4 w-4"></i>
+                        Reload
+                    </button>
+                    <button onclick="exportJSON()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg font-semibold flex items-center gap-2 transition-colors text-sm">
+                        <i data-lucide="download" class="h-4 w-4"></i>
+                        Export
+                    </button>
+                    <button onclick="openAddModal()" class="bg-[#D4AF37] hover:bg-[#b8962e] text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2 transition-colors">
+                        <i data-lucide="plus" class="h-4 w-4"></i>
+                        Add Product
+                    </button>
+                </div>
+            </div>
+
+            <!-- Products Table -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md border border-gray-100 dark:border-slate-700 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 dark:bg-slate-700 border-b border-gray-100 dark:border-slate-600">
+                            <tr>
+                                <th class="text-left px-4 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Product</th>
+                                <th class="text-left px-4 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300 hidden sm:table-cell">Category</th>
+                                <th class="text-left px-4 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Price</th>
+                                <th class="text-left px-4 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300 hidden md:table-cell">Qty</th>
+                                <th class="text-right px-4 py-3 text-sm font-semibold text-gray-600 dark:text-gray-300">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table" class="divide-y divide-gray-100 dark:divide-slate-700">
+                            <!-- Products will be rendered here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="empty-state" class="hidden p-10 text-center">
+                    <i data-lucide="package-x" class="h-12 w-12 mx-auto text-gray-300 dark:text-gray-600 mb-3"></i>
+                    <p class="text-gray-500 dark:text-gray-400">No products found</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="product-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <div class="bg-[#2F5233] dark:bg-slate-900 text-white p-4 flex justify-between items-center sticky top-0">
+                <h3 id="modal-title" class="serif text-xl font-bold">Add Product</h3>
+                <button onclick="closeProductModal()" class="hover:bg-white/20 p-1 rounded-full transition">
+                    <i data-lucide="x" class="h-5 w-5"></i>
+                </button>
+            </div>
+            
+            <form id="product-form" class="p-5 space-y-4">
+                <input type="hidden" id="product-id">
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Product Name *</label>
+                    <input type="text" id="product-name" required 
+                        class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F5233] dark:focus:ring-green-500 bg-white dark:bg-slate-700 dark:text-white">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Price (₹) *</label>
+                        <input type="number" id="product-price" required min="1" 
+                            class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F5233] dark:focus:ring-green-500 bg-white dark:bg-slate-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Quantity *</label>
+                        <input type="text" id="product-qty" required placeholder="e.g., 60 Capsules" 
+                            class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F5233] dark:focus:ring-green-500 bg-white dark:bg-slate-700 dark:text-white">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Category *</label>
+                    <select id="product-category" required 
+                        class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F5233] dark:focus:ring-green-500 bg-white dark:bg-slate-700 dark:text-white">
+                        <option value="">Select category</option>
+                        <option value="immunity">Immunity</option>
+                        <option value="digestive">Digestive Health</option>
+                        <option value="energy">Energy & Vitality</option>
+                        <option value="skin">Skin & Beauty</option>
+                        <option value="stress">Stress Relief</option>
+                        <option value="detox">Detox & Cleanse</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Image URL *</label>
+                    <input type="url" id="product-image" required placeholder="https://..." 
+                        class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F5233] dark:focus:ring-green-500 bg-white dark:bg-slate-700 dark:text-white">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Description *</label>
+                    <textarea id="product-desc" required rows="3" 
+                        class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2F5233] dark:focus:ring-green-500 bg-white dark:bg-slate-700 dark:text-white resize-none"></textarea>
+                </div>
+                
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeProductModal()" 
+                        class="flex-1 px-4 py-2.5 border-2 border-gray-200 dark:border-slate-600 text-gray-600 dark:text-gray-300 font-semibold rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                        class="flex-1 px-4 py-2.5 bg-[#2F5233] dark:bg-green-600 hover:bg-[#1e3a20] dark:hover:bg-green-700 text-white font-semibold rounded-lg transition-colors">
+                        Save Product
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden">
+            <div class="p-6 text-center">
+                <div class="bg-red-100 dark:bg-red-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="trash-2" class="h-8 w-8 text-red-600 dark:text-red-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Delete Product?</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-6">This action cannot be undone. The product will be permanently removed.</p>
+                <div class="flex gap-3">
+                    <button onclick="closeDeleteModal()" 
+                        class="flex-1 px-4 py-2.5 border-2 border-gray-200 dark:border-slate-600 text-gray-600 dark:text-gray-300 font-semibold rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="confirmDelete()" 
+                        class="flex-1 px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-colors">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CREDENTIALS (Change these for security)
+        // ==========================================
+        const ADMIN_USERNAME = "admin";
+        const ADMIN_PASSWORD = "admin";
+
+        const categoryLabels = {
+            immunity: "Immunity",
+            digestive: "Digestive",
+            energy: "Energy",
+            skin: "Skin",
+            stress: "Stress Relief",
+            detox: "Detox"
+        };
+
+        // ==========================================
+        // STATE
+        // ==========================================
+        let products = [];
+        let currentTab = 'active';
+        let deleteProductId = null;
+        let hasUnsavedChanges = false;
+
+        // ==========================================
+        // INIT
+        // ==========================================
+        lucide.createIcons();
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+            }
+        }
+        
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            lucide.createIcons();
+        }
+
+        initTheme();
+
+        // JSONBin.io Configuration
+        const JSONBIN_API = 'https://api.jsonbin.io/v3/b';
+        const JSONBIN_KEY = '$2a$10$R2crzhi/ahpIaZ8wXhlsZeXvAbQ2WTHjAqxmmgvV/lz3s.qFlz6f.';
+        const JSONBIN_ID = '692bd371ae596e708f79a1c0';
+        
+
+        // Load products from JSONBin cloud
+        async function loadProducts() {
+            try {
+                const response = await fetch(`${JSONBIN_API}/${JSONBIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': JSONBIN_KEY }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    products = data.record;
+                    renderTable();
+                    showNotification('Products loaded from cloud', 'success');
+                } else {
+                    throw new Error('Failed to load');
+                }
+                
+            } catch (error) {
+                console.error('Error loading products:', error);
+                products = [];
+                renderTable();
+                showNotification('Error loading products', 'error');
+            }
+        }
+
+        // Mark that there are unsaved changes
+        function markUnsaved() {
+            hasUnsavedChanges = true;
+            document.getElementById('unsaved-banner').classList.remove('hidden');
+            document.getElementById('info-banner').classList.add('hidden');
+            document.getElementById('save-all-btn').classList.remove('hidden');
+            lucide.createIcons();
+        }
+        
+        // Mark changes as saved
+        function markSaved() {
+            hasUnsavedChanges = false;
+            document.getElementById('unsaved-banner').classList.add('hidden');
+            document.getElementById('info-banner').classList.remove('hidden');
+            document.getElementById('save-all-btn').classList.add('hidden');
+        }
+
+        // Save all changes to JSONBin cloud
+        async function saveAllChanges() {
+            const saveBtn = document.getElementById('save-all-btn');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i data-lucide="loader-2" class="h-4 w-4 animate-spin"></i> Saving...';
+            lucide.createIcons();
+            
+            try {
+                const response = await fetch(`${JSONBIN_API}/${JSONBIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_KEY
+                    },
+                    body: JSON.stringify(products)
+                });
+                
+                if (response.ok) {
+                    markSaved();
+                    showNotification('All changes saved to cloud!', 'success');
+                } else {
+                    showNotification('Error saving changes', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving products:', error);
+                showNotification('Error saving changes', 'error');
+            }
+            
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = '<i data-lucide="cloud-upload" class="h-4 w-4"></i> Save All';
+            lucide.createIcons();
+        }
+        
+        // Notification helper
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed bottom-4 right-4 px-4 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 ${
+                type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            }`;
+            notification.innerHTML = `
+                <i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" class="h-5 w-5"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(notification);
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Export products as JSON file
+        function exportJSON() {
+            const dataStr = JSON.stringify(products, null, 4);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'products.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Reload products from cloud (discard unsaved changes)
+        async function resetToOriginal() {
+            const message = hasUnsavedChanges 
+                ? 'You have unsaved changes! This will reload products from cloud and discard them. Continue?'
+                : 'Reload products from cloud?';
+            
+            if (!confirm(message)) {
+                return;
+            }
+            
+            await loadProducts();
+            markSaved();
+            showNotification('Products reloaded from cloud!', 'success');
+        }
+
+        // ==========================================
+        // AUTH
+        // ==========================================
+        async function checkAuth() {
+            const isLoggedIn = sessionStorage.getItem('rnl_admin_auth') === 'true';
+            if (isLoggedIn) {
+                await showDashboard();
+            }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                sessionStorage.setItem('rnl_admin_auth', 'true');
+                await showDashboard();
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+                lucide.createIcons();
+            }
+        });
+
+        function logout() {
+            sessionStorage.removeItem('rnl_admin_auth');
+            location.reload();
+        }
+
+        async function showDashboard() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('admin-dashboard').classList.remove('hidden');
+            await loadProducts();
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // TAB SWITCHING
+        // ==========================================
+        function showTab(tab) {
+            currentTab = tab;
+            
+            const activeTab = document.getElementById('tab-active');
+            const archivedTab = document.getElementById('tab-archived');
+            
+            if (tab === 'active') {
+                activeTab.className = 'px-4 py-2 rounded-lg font-semibold transition-colors bg-[#2F5233] text-white';
+                archivedTab.className = 'px-4 py-2 rounded-lg font-semibold transition-colors bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600';
+            } else {
+                archivedTab.className = 'px-4 py-2 rounded-lg font-semibold transition-colors bg-amber-500 text-white';
+                activeTab.className = 'px-4 py-2 rounded-lg font-semibold transition-colors bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600';
+            }
+            
+            renderTable();
+        }
+
+        // ==========================================
+        // RENDER TABLE
+        // ==========================================
+        function renderTable() {
+            const tbody = document.getElementById('products-table');
+            const emptyState = document.getElementById('empty-state');
+            
+            const filtered = products.filter(p => currentTab === 'active' ? p.active !== false : p.active === false);
+            
+            // Update counts
+            document.getElementById('active-count').textContent = products.filter(p => p.active !== false).length;
+            document.getElementById('archived-count').textContent = products.filter(p => p.active === false).length;
+            
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                lucide.createIcons();
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            
+            tbody.innerHTML = filtered.map(p => `
+                <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
+                    <td class="px-4 py-3">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.image}" alt="${p.name}" class="w-12 h-12 rounded-lg object-cover">
+                            <div>
+                                <p class="font-semibold text-gray-800 dark:text-white">${p.name}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 max-w-[200px]">${p.desc}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 hidden sm:table-cell">
+                        <span class="bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 text-xs px-2 py-1 rounded-md">
+                            ${categoryLabels[p.category] || p.category}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <span class="font-semibold text-[#2F5233] dark:text-green-400">₹${p.price}</span>
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 hidden md:table-cell">${p.qty}</td>
+                    <td class="px-4 py-3">
+                        <div class="flex justify-end gap-1">
+                            <button onclick="editProduct(${p.id})" class="p-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors text-blue-600 dark:text-blue-400" title="Edit">
+                                <i data-lucide="edit-2" class="h-4 w-4"></i>
+                            </button>
+                            ${p.active === false ? `
+                                <button onclick="restoreProduct(${p.id})" class="p-2 hover:bg-green-50 dark:hover:bg-green-900/30 rounded-lg transition-colors text-green-600 dark:text-green-400" title="Restore">
+                                    <i data-lucide="archive-restore" class="h-4 w-4"></i>
+                                </button>
+                            ` : `
+                                <button onclick="archiveProduct(${p.id})" class="p-2 hover:bg-amber-50 dark:hover:bg-amber-900/30 rounded-lg transition-colors text-amber-600 dark:text-amber-400" title="Archive">
+                                    <i data-lucide="archive" class="h-4 w-4"></i>
+                                </button>
+                            `}
+                            <button onclick="openDeleteModal(${p.id})" class="p-2 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors text-red-600 dark:text-red-400" title="Delete">
+                                <i data-lucide="trash-2" class="h-4 w-4"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // PRODUCT ACTIONS
+        // ==========================================
+        function archiveProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                product.active = false;
+                markUnsaved();
+                renderTable();
+                showNotification('Product archived (remember to Save All)', 'success');
+            }
+        }
+
+        function restoreProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                product.active = true;
+                markUnsaved();
+                renderTable();
+                showNotification('Product restored (remember to Save All)', 'success');
+            }
+        }
+
+        // ==========================================
+        // ADD/EDIT MODAL
+        // ==========================================
+        function openAddModal() {
+            document.getElementById('modal-title').textContent = 'Add Product';
+            document.getElementById('product-form').reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('product-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            document.getElementById('modal-title').textContent = 'Edit Product';
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-qty').value = product.qty;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-image').value = product.image;
+            document.getElementById('product-desc').value = product.desc;
+            
+            document.getElementById('product-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        document.getElementById('product-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('product-id').value;
+            const productData = {
+                name: document.getElementById('product-name').value,
+                price: parseInt(document.getElementById('product-price').value),
+                qty: document.getElementById('product-qty').value,
+                category: document.getElementById('product-category').value,
+                image: document.getElementById('product-image').value,
+                desc: document.getElementById('product-desc').value,
+                active: true
+            };
+            
+            if (id) {
+                // Edit existing
+                const index = products.findIndex(p => p.id === parseInt(id));
+                if (index !== -1) {
+                    products[index] = { ...products[index], ...productData };
+                }
+                showNotification('Product updated (remember to Save All)', 'success');
+            } else {
+                // Add new
+                const maxId = products.reduce((max, p) => Math.max(max, p.id), 0);
+                products.push({ id: maxId + 1, ...productData });
+                showNotification('Product added (remember to Save All)', 'success');
+            }
+            
+            markUnsaved();
+            closeProductModal();
+            renderTable();
+        });
+
+        // ==========================================
+        // DELETE MODAL
+        // ==========================================
+        function openDeleteModal(id) {
+            deleteProductId = id;
+            document.getElementById('delete-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeDeleteModal() {
+            deleteProductId = null;
+            document.getElementById('delete-modal').classList.add('hidden');
+        }
+
+        function confirmDelete() {
+            if (deleteProductId) {
+                products = products.filter(p => p.id !== deleteProductId);
+                markUnsaved();
+                closeDeleteModal();
+                renderTable();
+                showNotification('Product deleted (remember to Save All)', 'success');
+            }
+        }
+
+        // Close modals on backdrop click
+        document.getElementById('product-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeProductModal();
+        });
+        document.getElementById('delete-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeDeleteModal();
+        });
+
+        // Warn before leaving with unsaved changes
+        window.addEventListener('beforeunload', function(e) {
+            if (hasUnsavedChanges) {
+                e.preventDefault();
+                e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+                return e.returnValue;
+            }
+        });
+
+        // ==========================================
+        // INIT
+        // ==========================================
+        checkAuth();
+    </script>
+</body>
+</html>
