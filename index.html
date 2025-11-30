@@ -1039,63 +1039,68 @@
         
         // Cache Configuration
         const CACHE_KEY = 'rnl_products_cache';
-        const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000; // 1 week in milliseconds
         
-        // Check if cache is valid
-        function getCachedProducts() {
+        // Get cached data with lastUpdated timestamp
+        function getCachedData() {
             try {
                 const cached = localStorage.getItem(CACHE_KEY);
                 if (!cached) return null;
                 
-                const { data, timestamp } = JSON.parse(cached);
-                const now = Date.now();
+                const parsed = JSON.parse(cached);
                 
-                // Check if cache is still valid (less than 1 week old)
-                if (now - timestamp < CACHE_DURATION) {
-                    console.log('Using cached products (expires in', Math.round((CACHE_DURATION - (now - timestamp)) / (24 * 60 * 60 * 1000)), 'days)');
-                    return data;
+                // Handle old cache format { data: [...], timestamp: ... }
+                if (parsed.data && !parsed.products) {
+                    return {
+                        products: parsed.data,
+                        lastUpdated: parsed.timestamp || 0
+                    };
                 }
                 
-                // Cache expired
-                console.log('Cache expired, fetching fresh data...');
-                return null;
+                return parsed;
             } catch (e) {
                 return null;
             }
         }
         
-        // Save products to cache
-        function cacheProducts(data) {
+        // Save products to cache with lastUpdated timestamp
+        function cacheProducts(productsData, lastUpdated) {
             try {
                 localStorage.setItem(CACHE_KEY, JSON.stringify({
-                    data: data,
-                    timestamp: Date.now()
+                    products: productsData,
+                    lastUpdated: lastUpdated || Date.now()
                 }));
-                console.log('Products cached for 1 week');
+                console.log('Products cached');
             } catch (e) {
                 console.log('Could not cache products');
             }
         }
         
-        // Load products - first check cache, then fetch from cloud
+        // Load products - show cache immediately, then check for updates
         async function loadProductsData() {
-            // Show loading state
-            productGrid.innerHTML = `
-                <div class="col-span-full text-center py-16">
-                    <div class="animate-spin h-10 w-10 border-4 border-[#2F5233] border-t-transparent rounded-full mx-auto mb-4"></div>
-                    <p class="text-gray-500 dark:text-gray-400">Loading products...</p>
-                </div>
-            `;
+            const cachedData = getCachedData();
             
-            // Try to use cached data first
-            const cachedData = getCachedProducts();
-            if (cachedData) {
-                products = cachedData.filter(p => p.active !== false);
+            // If we have cache, show it immediately for instant load
+            if (cachedData && cachedData.products) {
+                console.log('Showing cached products instantly...');
+                products = cachedData.products.filter(p => p.active !== false);
                 renderProducts();
-                return;
+                
+                // Then check for updates in background
+                checkForUpdates(cachedData.lastUpdated);
+            } else {
+                // No cache - show loading and fetch fresh
+                productGrid.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <div class="animate-spin h-10 w-10 border-4 border-[#2F5233] border-t-transparent rounded-full mx-auto mb-4"></div>
+                        <p class="text-gray-500 dark:text-gray-400">Loading products...</p>
+                    </div>
+                `;
+                await fetchFreshProducts();
             }
-            
-            // No valid cache, fetch from cloud
+        }
+        
+        // Check if there are updates available (runs in background)
+        async function checkForUpdates(cachedTimestamp) {
             try {
                 const response = await fetch(`${JSONBIN_API}/${JSONBIN_ID}/latest`, {
                     headers: { 'X-Master-Key': JSONBIN_KEY }
@@ -1103,12 +1108,65 @@
                 
                 if (response.ok) {
                     const data = await response.json();
-                    const allProducts = data.record;
+                    const record = data.record;
                     
-                    // Cache the fresh data
-                    cacheProducts(allProducts);
+                    // Handle both old format (array) and new format (object with products)
+                    let productsData, remoteTimestamp;
                     
-                    products = allProducts.filter(p => p.active !== false);
+                    if (Array.isArray(record)) {
+                        // Old format - just an array, force update
+                        productsData = record;
+                        remoteTimestamp = Date.now();
+                    } else if (record && record.products) {
+                        // New format - object with lastUpdated and products
+                        productsData = record.products;
+                        remoteTimestamp = record.lastUpdated || 0;
+                    } else {
+                        return; // Invalid data
+                    }
+                    
+                    // If remote is newer than cached, update immediately
+                    if (!cachedTimestamp || remoteTimestamp > cachedTimestamp) {
+                        console.log('🔄 New updates found! Refreshing products...');
+                        cacheProducts(productsData, remoteTimestamp);
+                        products = productsData.filter(p => p.active !== false);
+                        renderProducts();
+                    } else {
+                        console.log('✓ Products are up to date');
+                    }
+                }
+            } catch (error) {
+                console.log('Background update check failed (using cached data)');
+            }
+        }
+        
+        // Fetch fresh products from cloud
+        async function fetchFreshProducts() {
+            try {
+                const response = await fetch(`${JSONBIN_API}/${JSONBIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': JSONBIN_KEY }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const record = data.record;
+                    
+                    // Handle both old format (array) and new format (object with products)
+                    let productsData, remoteTimestamp;
+                    
+                    if (Array.isArray(record)) {
+                        productsData = record;
+                        remoteTimestamp = Date.now();
+                    } else if (record && record.products) {
+                        productsData = record.products;
+                        remoteTimestamp = record.lastUpdated || Date.now();
+                    } else {
+                        throw new Error('Invalid data format');
+                    }
+                    
+                    // Cache and display
+                    cacheProducts(productsData, remoteTimestamp);
+                    products = productsData.filter(p => p.active !== false);
                     renderProducts();
                 } else {
                     throw new Error('Failed to load products');

@@ -387,7 +387,17 @@
                 
                 if (response.ok) {
                     const data = await response.json();
-                    products = data.record;
+                    const record = data.record;
+                    
+                    // Handle both old format (array) and new format (object with products)
+                    if (Array.isArray(record)) {
+                        products = record;
+                    } else if (record && record.products) {
+                        products = record.products;
+                    } else {
+                        products = [];
+                    }
+                    
                     renderTable();
                     showNotification('Products loaded from cloud', 'success');
                 } else {
@@ -427,18 +437,24 @@
             lucide.createIcons();
             
             try {
+                // Wrap products with lastUpdated timestamp for cache invalidation
+                const dataToSave = {
+                    lastUpdated: Date.now(),
+                    products: products
+                };
+                
                 const response = await fetch(`${JSONBIN_API}/${JSONBIN_ID}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Master-Key': JSONBIN_KEY
                     },
-                    body: JSON.stringify(products)
+                    body: JSON.stringify(dataToSave)
                 });
                 
                 if (response.ok) {
                     markSaved();
-                    showNotification('All changes saved to cloud!', 'success');
+                    showNotification('All changes saved! Users will see updates immediately.', 'success');
                 } else {
                     showNotification('Error saving changes', 'error');
                 }
